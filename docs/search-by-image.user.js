@@ -1,28 +1,22 @@
 // ==UserScript==
 // @name        Search By Image
 // @version     1.5
-// @description Search By Image | 以图搜图
+// @description Search By Image
 // @match       <all_urls>
 // @include     *
-// @author      864907600cc
-// @icon        http://1.gravatar.com/avatar/147834caf9ccb0a66b2505c753747867
+// @author      NaN
+// @icon        http://get-rekt.info/images/icon.png
 // @run-at      document-start
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_openInTab
 // @grant       GM_registerMenuCommand
-// @updateURL   https://github.com/ccloli/Search-By-Image/raw/master/search-by-image.user.js
-// @downloadURL https://github.com/ccloli/Search-By-Image/raw/master/search-by-image.user.js
-// @updateURL   https://greasyfork.org/scripts/2998/code.meta.js
-// @downloadURL https://greasyfork.org/scripts/2998/code.user.js
-// @updateURL   http://ext.ccloli.com/search-by-image/search-by-image.user.js
-// @downloadURL http://ext.ccloli.com/search-by-image/search-by-image.user.js
-// @namespace   http://ext.ccloli.com
+// @downloadURL http://get-rekt.info/search-by-image.user.js
+// @updateURL   http://get-rekt.info/search-by-image.user.js
 // ==/UserScript==
 
 
-// 本脚本基于 GPLv3 协议开源 http://www.gnu.org/licenses/gpl.html
-// (c) 86497600cc. Some Rights Reserved.
+// GPLv3 http://www.gnu.org/licenses/gpl.html
 // Default setting: Press Ctrl and click right key on a image to search.
 
 'use strict';
@@ -32,7 +26,7 @@ var default_setting = {
 		"Baidu": "https://image.baidu.com/n/pc_search?queryImageUrl={%s}&fm=result_camera&uptype=paste&drag=1",
 		"Bing": "https://www.bing.com/images/searchbyimage?cbir=sbi&iss=sbi&imgurl={%s}",
 		"TinEye": "https://www.tineye.com/search?url={%s}",
-		//"Cydral": "http://www.cydral.com/#url={%s}",
+		"Cydral": "http://www.cydral.com/#url={%s}",
 		"Yandex": "https://yandex.ru/images/search?rpt=imageview&img_url={%s}", // change "Яндекс (Yandex)" to "Yandex"
 		"Sogou": "https://pic.sogou.com/ris?query={%s}&flag=1&drag=0",
 		"360 ShiTu": "http://st.so.com/stu?imgurl={%s}",
@@ -47,17 +41,16 @@ var default_setting = {
 };
 
 /*var server_url = "//sbi.ccloli.com/img/upload.php";*/
-// 请直接在设置页进行设置（Firefox 请尽量选择支持 https 的服务器）
-// 地址前使用"//"表示按照当前页面设定决定是否使用 https
-// 地址前使用"http://"表示强制使用 http
-// 地址前使用"https://"表示强制使用 https（需确认服务器支持 ssl）
-// 如果需要自己架设上传服务器的话请访问 GitHub 项目页（https://github.com/ccloli/Search-By-Image）获取服务端
-// 其他可用的上传服务器如下：
-// Heroku: //search-by-image.herokuapp.com/img/upload.php （支持 https）
-// BeGet: http://fh13121a.bget.ru/img/upload.php （不支持 https）
-// OpenShift: //searchbyimage-864907600cc.rhcloud.com/img/upload.php （支持 https）
-// DigitalOcean VPS: //sbi.ccloli.com/img/upload.php （支持 https，thanks to Retaker）
-// 注意，部分服务器可能仅支持 http 协议，若您选择了这些服务器，请务必注明 "http://"，且若您使用的是 Firefox 浏览器，在 https 页面下将不能上传文件搜索搜索（除非设置 security.mixed_content.block_active_content 为 false）
+// （Firefox  https ）
+// "//" https
+// "http://" http
+// "https://" https（ssl）
+// GitHub https://github.com/ccloli/Search-By-Image）
+// Heroku: //search-by-image.herokuapp.com/img/upload.php （ https）
+// BeGet: http://fh13121a.bget.ru/img/upload.php （ https）
+// OpenShift: //searchbyimage-864907600cc.rhcloud.com/img/upload.php （ https）
+// DigitalOcean VPS: //sbi.ccloli.com/img/upload.php （ https，thanks to Retaker）
+// http "http://"， Firefox https  security.mixed_content.block_active_content 为 false）
 
 var search_panel = null;
 var setting = GM_getValue('setting') ? JSON.parse(GM_getValue('setting')) : default_setting;
